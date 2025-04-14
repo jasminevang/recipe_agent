@@ -52,7 +52,7 @@ def get_max_page_number(base_url):
     page = requests.get(base_url)
     soup = BeautifulSoup(page.content, "html.parser")
 
-    page_links = soup.select('a[href*="/page/"]')
+    page_links = soup.select("a[href*='/page/']")
 
     page_numbers = []
     for link in page_links:
@@ -75,27 +75,27 @@ def scrape_recipe_page(url: str):
     title = soup.find("h2", class_="wprm-recipe-name wprm-block-text-bold")
     title = title.text.strip() if title else "Untitled Recipe"
 
-    servings_tag = soup.find('div', class_='wprm-recipe-container')
-    servings = servings_tag['data-servings'] if servings_tag and servings_tag.has_attr('data-servings') else "Unknown"
+    servings_tag = soup.find("div", class_="wprm-recipe-container")
+    servings = servings_tag["data-servings"] if servings_tag and servings_tag.has_attr("data-servings") else "Unknown"
 
-    total_time_tag = soup.find('span', class_='wprm-recipe-total_time')
+    total_time_tag = soup.find("span", class_="wprm-recipe-total_time")
     total_time = total_time_tag.text.strip() if total_time_tag else "Unknown"
 
     description_tag = soup.select_one("div.wprm-recipe-summary") 
     description = description_tag.text.strip() if description_tag else "No description found."
 
-    ingredient_elements = soup.find_all('li', class_='wprm-recipe-ingredient')
+    ingredient_elements = soup.find_all("li", class_="wprm-recipe-ingredient")
     ingredients = []
     for li in ingredient_elements:
-        amount = li.find('span', class_='wprm-recipe-ingredient-amount')
-        unit = li.find('span', class_='wprm-recipe-ingredient-unit')
-        name = li.find('span', class_='wprm-recipe-ingredient-name')
+        amount = li.find("span", class_="wprm-recipe-ingredient-amount")
+        unit = li.find("span", class_="wprm-recipe-ingredient-unit")
+        name = li.find("span", class_="wprm-recipe-ingredient-name")
         text_parts = [
-            amount.get_text(strip=True) if amount else '',
-            unit.get_text(strip=True) if unit else '',
-            name.get_text(strip=True) if name else ''
+            amount.get_text(strip=True) if amount else "",
+            unit.get_text(strip=True) if unit else "",
+            name.get_text(strip=True) if name else ""
         ]
-        ingredient_text = ' '.join(part for part in text_parts if part)
+        ingredient_text = " ".join(part for part in text_parts if part)
         ingredients.append(ingredient_text)
 
     instructions = [i.text.strip() for i in soup.select("div.wprm-recipe-instruction-text")]
@@ -135,4 +135,3 @@ if __name__ == "__main__":
     for r in recipes:
         print(r["title"])
         print("Ingredients:", r["ingredients"][:3], "...")
-
