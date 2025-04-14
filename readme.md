@@ -9,10 +9,10 @@ It supports both:
 ---
 
 # Create Virtual Environment (Optional but Recommended)
-'
-python -m venv env # create python virt env
+
+    python -m venv env # create python virt env
 source env/bin/activate # activate python virt env (You'll have to do this every time)
-'
+
 # Install Dependencies
 '
 pip install openai
